@@ -1,0 +1,32 @@
+ДЛЯ PostgreSQL:
+Необходимо установить пакеты 
+	• “Npgsql.EntityFrameworkCore.PostgreSQL”
+	• “Npgsql.EntityFrameworkCore.PostgreSQL.Design”
+	• "Microsoft.EntityFrameworkCore.Tools"
+Следить за версиями, если на создаются, то проблема может быть в разности версий, желательно устанавливать одинаковые версии.
+
+Scaffold-DbContext "Host=localhost;Database=*******;Username=postgres;Password=******" Npgsql.EntityFrameworkCore.PostgreSQL  //прямое указание строки соединения
+Scaffold-DbContext Name=DefaultConnection Npgsql.EntityFrameworkCore.PostgreSQL  //Использовать соединение из конфигурации с именем DefaultConnection 
+
+Дополнительные ключи к команде (указываются в конце команды):
+		-Schemas Public //указывается конкретная схема для реконструкции всех таблиц из нее
+		-Tables Product, Orders //указываются конкретные таблицы для реконструкции 
+		-Context AppContext //указываем имя контекста, иначе [имя БД]+Context
+		-ContextDir Data //сущности создаются в папку Models 
+		-OutputDir Models //контекст создается в папку Data, а сущности в Models
+		-DataAnnotations //использование атрибутов в сущностях вместо прописывания свойств в контексте
+Пример строки для реконструкции:
+Scaffold-DbContext "Host=localhost;Database=********;Username=postgres;Password=******"  Npgsql.EntityFrameworkCore.PostgreSQL -Context AppContext -DataAnnotations -OutputDir Models
+
+
+ДЛЯ MySQL:
+Необходимо установить пакеты 
+	• “MySql.Data.EntityFrameworkCore”
+	• “Microsoft.EntityFrameworkCore.Relational”
+	• "Microsoft.EntityFrameworkCore.Tools"
+  • "Microsoft.EntityFrameworkCore.Design"
+  • "Microsoft.EntityFrameworkCore"
+Следить за версиями, если на создаются, то проблема может быть в разности версий, желательно устанавливать одинаковые версии.  
+
+Пример строки для реконструкции:
+Scaffold-DbContext "server=192.168.10.213;port=3306;user=root;password=**********;database=******" MySql.Data.EntityFrameworkCore -OutputDir Models -DataAnnotation -Tables zp_review, zp_company, zp_dogovor 
