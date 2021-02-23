@@ -77,7 +77,7 @@ namespace tstRegExp
             //pat - паттерн регулярного выражения
             //MatchNum - номер вхождения, по умолчанию берется первое вхождение
             //subMatchNum - номер группы вхождения. По умолчанию берется нулевая группа, т.е. весь результат вхождения
-            static string MatchSimple(string str, string pat, int MatchNum = 0, int subMatchNum = 0)
+            static string MatchGroups(string str, string pat, int MatchNum = 0, int groupNum = 0)
             {
                 string matchStr = "";
                 Match match;
@@ -85,9 +85,9 @@ namespace tstRegExp
                 if (matches.Count >= MatchNum + 1)
                 {
                     match = matches[MatchNum];
-                    if (match.Groups.Count >= (subMatchNum + 1))
+                    if (match.Groups.Count >= (groupNum + 1))
                     {
-                        matchStr = match.Groups[subMatchNum].Value;
+                        matchStr = match.Groups[groupNum].Value;
                     }
                 }
                 return matchStr;
