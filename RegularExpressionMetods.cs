@@ -40,22 +40,16 @@ namespace tstRegExp
             //pat - паттерн регулярного выражения
             //MatchNum - номер вхождения, по умолчанию берется первое вхождение
             //returnpatstr - формат выводимой строки, где в скобках указаны номер группы вхождения. По умолчанию берется нулевая группа, т.е. весь результат вхождения
-            static string MatchConstructor(string str, string pat, int MatchNum = 0, string returnpatstr = "(0)")
+            public static string MatchConstructor(string str, string pat, int MatchNum = 0, string returnpatstr = "(0)")
             {
+                string res = "";
                 List<int> grps = new List<int>();
                 MatchCollection matches = Regex.Matches(returnpatstr, @"(?<=\()\d+?(?=\))", RegexOptions.IgnoreCase);
-                if (matches.Count > 0)
+                foreach (var m in matches)
                 {
-                    foreach (var m in matches)
+                    if (int.TryParse(m.ToString(), out var num))
                     {
-                        if (int.TryParse(m.ToString(), out var num))
-                        {
-                            grps.Add(num);
-                        }
-                    }
-                    if (grps.Count == 0)
-                    {
-                        grps.Add(0);
+                        grps.Add(num);
                     }
                 }
 
@@ -65,10 +59,10 @@ namespace tstRegExp
                     Match match = matchesmain[MatchNum];
                     foreach (var g in grps)
                     {
-                        returnpatstr = returnpatstr.Replace($"({g.ToString()})", match.Groups[g].Value);
+                        res = returnpatstr.Replace($"({g.ToString()})", match.Groups[g].Value);
                     }
                 }
-                return returnpatstr;
+                return res;
             }
 
             //Метод возвращающий по порядковому номеру результат вхождения полностью или результат вхождения группы по порядковому номеру 
