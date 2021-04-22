@@ -71,17 +71,22 @@ namespace tstRegExp
             //pat - паттерн регулярного выражения
             //MatchNum - номер вхождения, по умолчанию берется первое вхождение
             //subMatchNum - номер группы вхождения. По умолчанию берется нулевая группа, т.е. весь результат вхождения
-            static string MatchGroups(string str, string pat, int MatchNum = 0, int groupNum = 0)
+            public static string MatchGroups(string str, string pat, int MatchNum = 0, int groupNum = 0)
             {
+                MatchNum = MatchNum == 0 ? MatchNum : MatchNum-1;
                 string matchStr = "";
                 Match match;
                 MatchCollection matches = Regex.Matches(str, pat, RegexOptions.IgnoreCase);
                 if (matches.Count >= MatchNum + 1)
                 {
                     match = matches[MatchNum];
-                    if (match.Groups.Count >= (groupNum + 1))
+                    if (groupNum > 0 && match.Groups.Count >= groupNum)
                     {
                         matchStr = match.Groups[groupNum].Value;
+                    }
+                    else
+                    {
+                        matchStr = match.Value;
                     }
                 }
                 return matchStr;
